@@ -1,0 +1,103 @@
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs ---
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.iml
+
+# VS Code (ignore if you don’t commit editor settings)
+.vscode/
+
+# --- .NET build artifacts ---
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+project.lock.json
+project.fragment.lock.json
+artifacts/
+GeneratedFiles/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.cache
+*.ide/
+*.ilk
+*.pdb
+*.tmp
+
+# --- NuGet ---
+packages/
+*.nupkg
+*.snupkg
+.nuget/packages/
+# NuGet v3 cache (user profile)
+~/.nuget/packages/
+
+# --- Tests / Coverage ---
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+.coverage
+.nCrunch*
+*.ncrunchsolution
+BenchmarkDotNet.Artifacts/
+
+# --- Entity Framework / Tools ---
+# (Migrations are committed; temporary project user files are not)
+*.sqlproj.user
+
+# --- ASP.NET / IIS / Static ---
+# Publish output
+publish/
+wwwroot/lib/
+# Static bundle caches
+BundleArtifacts/
+
+# --- Secrets & local config (commit production config, ignore local secrets) ---
+appsettings.Development.json
+appsettings.*.local.json
+appsettings.local.json
+secrets.json
+**/*secrets*.json
+# Azure Functions local settings
+local.settings.json
+
+# --- Docker / Compose ---
+.env
+*.env
+.env.*.local
+
+# --- Node / SPA (if frontend lives in the solution) ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+# SPA build artifacts
+dist/
+build/
+
+# --- Azure / Publish Profiles ---
+*.PublishSettings
+*.pubxml
+*.pubxml.user
+
+# --- Misc ---
+StyleCopReport.xml
+# Rider solution caches
+/.idea/.idea.*
+# VS profiler
+*.psess
+*.vsp
+*.vspscc
+# Git conflict leftovers
+*.orig

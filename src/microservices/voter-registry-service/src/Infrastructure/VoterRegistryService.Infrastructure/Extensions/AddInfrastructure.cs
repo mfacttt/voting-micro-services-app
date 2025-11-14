@@ -18,11 +18,7 @@ public static class AddInfrastructure
 
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<VoterRegistryDbContext>(options =>
-        {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            options.UseNpgsql(connectionString);
-        });
+        services.AddDbContext<VoterRegistryDbContext>(options => options.UseInMemoryDatabase("VoterRegistryDb"));
 
         return services;
     }

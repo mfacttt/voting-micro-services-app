@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BA41EE0B-8EC8-6637-2411-9884164A38AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Api.Tests", "src\microservices\audit-service\tests\AuditService.Api.Tests\AuditService.Api.Tests.csproj", "{858AD994-3727-4FF3-8A50-BE57AF03B6E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Integration.Tests", "src\microservices\audit-service\tests\AuditService.Integration.Tests\AuditService.Integration.Tests.csproj", "{858AD994-3727-4FF3-8A50-BE57AF03B6E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Api", "src\microservices\audit-service\src\Api\AuditService.Api\AuditService.Api.csproj", "{726E0D07-5490-41C8-BB73-9CFD2D9037E0}"
 EndProject
@@ -142,7 +142,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Persiste
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{19B43B8C-6486-1C04-A610-A9080685A8D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Api.Tests", "src\microservices\vote-casting-service\tests\VoteCastingService.Api.Tests\VoteCastingService.Api.Tests.csproj", "{CCD53ADD-7452-4F01-A6C8-75C988009650}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Integration.Tests", "src\microservices\vote-casting-service\tests\VoteCastingService.Integration.Tests\VoteCastingService.Integration.Tests.csproj", "{CCD53ADD-7452-4F01-A6C8-75C988009650}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "voter-registry-service", "voter-registry-service", "{31B3085F-1DA0-92F3-3EA6-7155D0180F97}"
 	ProjectSection(SolutionItems) = preProject

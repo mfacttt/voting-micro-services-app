@@ -1,5 +1,5 @@
-using VoterRegistryService.Application.Extensions;
-using VoterRegistryService.Infrastructure.Extensions;
+using AuditService.Application.Extensions;
+using AuditService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +15,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voter Registry API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Audit API v1");
     c.RoutePrefix = string.Empty;
 });
 
@@ -28,4 +28,6 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program {}
+public partial class Program
+{
+}

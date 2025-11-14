@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\AuditService.Application\AuditService.Application.csproj"/>
+        <ProjectReference Include="..\..\Core\AuditService.Domain\AuditService.Domain.csproj"/>
+        <ProjectReference Include="..\AuditService.Persistence\AuditService.Persistence.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Services\"/>
+    </ItemGroup>
+
+</Project>

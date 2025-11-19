@@ -18,10 +18,6 @@ public class VoteConfiguration : IEntityTypeConfiguration<Vote>
             .IsRequired()
             .ValueGeneratedNever();
 
-        builder.Property(v => v.CandidateId)
-            .IsRequired()
-            .ValueGeneratedNever();
-
         builder.Property(v => v.VoteAt)
             .IsRequired();
     }

@@ -18,6 +18,8 @@ public class VoteCastingService(IVoteRepository repository) : IVoteCastingServic
 
         repository.AddAsync(vote, ct);
         await repository.SaveChangesAsync(ct);
+        
+        // Send to client message to count the vote {electionId, candidateId}
     }
 
     private Vote MapToVoteEntity(CastVoteRequest request)
@@ -26,7 +28,6 @@ public class VoteCastingService(IVoteRepository repository) : IVoteCastingServic
         {
             ElectionId = request.ElectionId,
             VoterId = request.VoterId,
-            CandidateId = request.CandidateId,
             VoteAt = DateTimeOffset.UtcNow
         };
     }

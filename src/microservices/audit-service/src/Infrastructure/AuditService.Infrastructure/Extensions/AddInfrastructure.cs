@@ -19,7 +19,7 @@ public static class AddInfrastructure
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IAuditLogRepository, AuditAuditLogRepository>();
+        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
         return services;
     }

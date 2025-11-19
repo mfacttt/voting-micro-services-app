@@ -11,8 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Core\VoteCastingService.Application\VoteCastingService.Application.csproj"/>
-        <ProjectReference Include="..\..\Infrastructure\VoteCastingService.Infrastructure\VoteCastingService.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\Core\TallyService.Application\TallyService.Application.csproj"/>
+        <ProjectReference Include="..\..\Infrastructure\TallyService.Infrastructure\TallyService.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

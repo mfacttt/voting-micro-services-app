@@ -1,0 +1,151 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+    - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  api-gateway:
+    build:
+      context: ../../src/microservices/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - identity-service
+      - audit-service
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  audit-service:
+    build:
+      context: ../../src/microservices/audit-service
+      dockerfile: Dockerfile
+    container_name: audit-service
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${AUDIT_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  election-service:
+    build:
+      context: ../../src/microservices/election-service
+      dockerfile: Dockerfile
+    container_name: election-service
+    ports:
+      - "8083:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${ELECTION_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  identity-service:
+    build:
+      context: ../../src/microservices/identity-service
+      dockerfile: Dockerfile
+    container_name: identity-service
+    ports:
+      - "8084:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${IDENTITY_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  tally-service:
+    build:
+      context: ../../src/microservices/tally-service
+      dockerfile: Dockerfile
+    container_name: tally-service
+    ports:
+      - "8086:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${TALLY_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  vote-casting-service:
+    build:
+      context: ../../src/microservices/vote-casting-service
+      dockerfile: Dockerfile
+    container_name: vote-casting-service
+    ports:
+      - "8087:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${VOTE_CASTING_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  voter-registry-service:
+    build:
+      context: ../../src/microservices/voter-registry-service
+      dockerfile: Dockerfile
+    container_name: voter-registry-service
+    ports:
+      - "8089:8080"
+    env_file:
+      - .env
+    environment:
+      - ConnectionStrings__DefaultConnection=${VOTER_REGISTRY_CONNECTION}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+    
+    
+volumes:
+    pg_data:

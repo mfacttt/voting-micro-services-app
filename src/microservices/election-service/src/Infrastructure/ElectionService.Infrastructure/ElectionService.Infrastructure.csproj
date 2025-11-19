@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\ElectionService.Domain\ElectionService.Domain.csproj"/>
+        <ProjectReference Include="..\ElectionService.Persistence\ElectionService.Persistence.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Clients\"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>

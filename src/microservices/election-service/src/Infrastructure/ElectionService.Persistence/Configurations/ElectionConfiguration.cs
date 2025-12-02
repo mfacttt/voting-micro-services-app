@@ -13,10 +13,6 @@ public sealed class ElectionConfiguration : IEntityTypeConfiguration<Election>
         builder.Property(e => e.CreatedAt)
             .IsRequired();
 
-        builder.Property(e => e.UpdatedAt)
-            .IsRequired();
-
-
         builder.Property(e => e.Name)
             .IsRequired()
             .HasMaxLength(200);

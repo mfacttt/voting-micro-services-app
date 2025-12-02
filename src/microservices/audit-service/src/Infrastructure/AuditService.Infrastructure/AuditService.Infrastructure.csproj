@@ -11,7 +11,7 @@
         <ProjectReference Include="..\..\Core\AuditService.Domain\AuditService.Domain.csproj"/>
         <ProjectReference Include="..\AuditService.Persistence\AuditService.Persistence.csproj"/>
     </ItemGroup>
-
+    
     <ItemGroup>
         <Folder Include="Services\"/>
     </ItemGroup>

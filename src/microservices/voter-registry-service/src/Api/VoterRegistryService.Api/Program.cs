@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using VoterRegistryService.Application.Extensions;
 using VoterRegistryService.Infrastructure.Extensions;
+using VoterRegistryService.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,11 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<VoterRegistryDbContext>();
+    db.Database.Migrate();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>

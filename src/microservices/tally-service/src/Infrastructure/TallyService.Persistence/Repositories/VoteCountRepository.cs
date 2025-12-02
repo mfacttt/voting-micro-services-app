@@ -9,18 +9,22 @@ public sealed class VoteCountRepository(TallyDbContext tallyDbContext) : IVoteCo
 {
     public async Task AddAsync(VoteCount voteCount, CancellationToken ct = default)
     {
-        var exists = await tallyDbContext.VoteCounts
-            .FirstOrDefaultAsync(x => 
-                x.ElectionId == voteCount.ElectionId && 
-                x.CandidateId == voteCount.CandidateId, cancellationToken: ct);
-        
-        if (exists is null)
+        var existing = await tallyDbContext.VoteCounts
+            .FirstOrDefaultAsync(x =>
+                x.ElectionId == voteCount.ElectionId &&
+                x.CandidateId == voteCount.CandidateId, ct);
+
+        if (existing is null)
         {
             await tallyDbContext.VoteCounts.AddAsync(voteCount, ct);
+            voteCount.Count++;
         }
-        
-        voteCount.Count++;
+        else
+        {
+            existing.Count++;
+        }
     }
+
 
     public Task<VoteCount?> GetAsync(Guid electionId, Guid candidateId, CancellationToken ct = default)
     {

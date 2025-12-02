@@ -4,12 +4,20 @@ using ElectionService.Domain.Repositories;
 
 namespace ElectionService.Application.Services.CandidateService;
 
-public sealed class CandidateService(IElectionRepository electionRepository, ICandidateRepository candidateRepository)
-    : ICandidateService
+public sealed class CandidateService : ICandidateService
 {
+    private readonly IElectionRepository _electionRepository;
+    private readonly ICandidateRepository _candidateRepository;
+
+    public CandidateService(IElectionRepository electionRepository, ICandidateRepository candidateRepository)
+    {
+        _electionRepository = electionRepository;
+        _candidateRepository = candidateRepository;
+    }
+
     public async Task<CandidateResponse> CreateAsync(Guid electionId, CreateCandidateRequest request, CancellationToken ct = default)
     {
-        var election = await electionRepository.GetByIdAsync(electionId, ct)
+        var election = await _electionRepository.GetByIdAsync(electionId, ct)
                        ?? throw new KeyNotFoundException("Election not found.");
 
         if (election.Status != Domain.Enums.ElectionStatus.Scheduled)
@@ -19,8 +27,8 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
 
         var candidate = MapToCandidateEntity(electionId, request);
 
-        candidateRepository.Add(candidate, ct);
-        await candidateRepository.SaveChangesAsync(ct);
+        _candidateRepository.Add(candidate, ct);
+        await _candidateRepository.SaveChangesAsync(ct);
 
         var response = MapToCandidateResponse(candidate);
 
@@ -29,7 +37,7 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
 
     public async Task<CandidateResponse?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        var candidate = await candidateRepository.GetByIdAsync(id, ct);
+        var candidate = await _candidateRepository.GetByIdAsync(id, ct);
         return candidate is null
             ? null
             : MapToCandidateResponse(candidate);
@@ -37,7 +45,7 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
 
     public async Task<IReadOnlyList<CandidateResponse>> GetByElectionIdAsync(Guid electionId, CancellationToken ct)
     {
-        var election = await electionRepository.GetByIdAsync(electionId, ct);
+        var election = await _electionRepository.GetByIdAsync(electionId, ct);
         if (election is null || !election.Candidates.Any())
         {
             return [];
@@ -48,7 +56,7 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
 
     public async Task DeleteAsync(Guid electionId, Guid id, CancellationToken ct)
     {
-        var election = await electionRepository.GetByIdAsync(electionId, ct)
+        var election = await _electionRepository.GetByIdAsync(electionId, ct)
                        ?? throw new KeyNotFoundException("Election not found.");
 
         if (election.Status != Domain.Enums.ElectionStatus.Scheduled)
@@ -56,7 +64,7 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
             throw new InvalidOperationException("Candidates can only be deleted from Scheduled elections.");
         }
 
-        var candidate = await candidateRepository.GetByIdAsync(id, ct);
+        var candidate = await _candidateRepository.GetByIdAsync(id, ct);
 
         if (candidate is null)
         {
@@ -68,8 +76,8 @@ public sealed class CandidateService(IElectionRepository electionRepository, ICa
             throw new InvalidOperationException("Candidate does not belong to the specified election.");
         }
 
-        candidateRepository.Remove(candidate, ct);
-        await candidateRepository.SaveChangesAsync(ct);
+        _candidateRepository.Remove(candidate, ct);
+        await _candidateRepository.SaveChangesAsync(ct);
     }
 
 

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using TallyService.Application.Services;
 
 namespace TallyService.Application.Extensions;
 
@@ -6,6 +7,7 @@ public static class AddApplication
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection service)
     {
+        service.AddScoped<ITallyService, Services.TallyService>();
         return service;
     }
 }

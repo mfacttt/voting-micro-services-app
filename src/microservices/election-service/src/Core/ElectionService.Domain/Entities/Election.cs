@@ -17,52 +17,22 @@ public sealed class Election
     public ElectionStatus Status { get; private set; } = ElectionStatus.Scheduled;
 
     public ICollection<Candidate> Candidates { get; init; } = new List<Candidate>();
-
-
-    public bool IsActive(DateTimeOffset nowUtc)
-    {
-        return Status == ElectionStatus.Active &&
-               nowUtc >= StartsAtUtc &&
-               nowUtc <= EndsAtUtc;
-    }
-
-    public bool CanBeActivated(DateTimeOffset nowUtc)
-    {
-        return Status is ElectionStatus.Scheduled &&
-               nowUtc >= StartsAtUtc &&
-               nowUtc < EndsAtUtc;
-    }
-
+    
 
     public void Activate(DateTimeOffset nowUtc)
     {
-        if (!CanBeActivated(nowUtc))
-        {
-            throw new InvalidOperationException("Election cannot be activated in current state.");
-        }
-
         Status = ElectionStatus.Active;
         UpdatedAt = nowUtc;
     }
 
     public void End(DateTimeOffset nowUtc)
     {
-        if (Status is not ElectionStatus.Active)
-        {
-            throw new InvalidOperationException("Only active elections can be ended.");
-        }
-
         Status = ElectionStatus.Ended;
         UpdatedAt = nowUtc;
     }
 
     public void Cancel(DateTimeOffset nowUtc)
     {
-        if (Status == ElectionStatus.Ended)
-        {
-            throw new InvalidOperationException("Cannot cancel ended election.");
-        }
-
         Status = ElectionStatus.Cancelled;
         UpdatedAt = nowUtc;
     }

@@ -14,6 +14,7 @@ public sealed class ElectionService(IElectionRepository electionRepository) : IE
             throw new ArgumentException("EndsAtUtc must be > StartsAtUtc");
         }
 
+
         var election = MapToElectionEntity(request);
 
         electionRepository.Add(election, ct);
@@ -81,7 +82,9 @@ public sealed class ElectionService(IElectionRepository electionRepository) : IE
             Name = request.Name,
             Description = request.Description,
             StartsAtUtc = request.StartsAtUtc,
-            EndsAtUtc = request.EndsAtUtc
+            EndsAtUtc = request.EndsAtUtc,
+            CreatedAt = DateTimeOffset.UtcNow,
+            
         };
     }
 }

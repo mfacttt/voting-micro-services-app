@@ -26,8 +26,10 @@ public static class AddInfrastructure
 
     private static IServiceCollection AddContext(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
         services.AddDbContext<AuditDbContext>(options =>
-            options.UseInMemoryDatabase("AuditDb"));
+            options.UseNpgsql(connectionString));
 
         return services;
     }

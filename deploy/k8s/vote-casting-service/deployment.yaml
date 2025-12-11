@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-casting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-casting-service
+  template:
+    metadata:
+      labels:
+        app: vote-casting-service
+    spec:
+      containers:
+        - name: vote-casting-service
+          image: vote-casting-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: app-secrets

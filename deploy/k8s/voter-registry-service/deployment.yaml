@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voter-registry-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voter-registry-service
+  template:
+    metadata:
+      labels:
+        app: voter-registry-service
+    spec:
+      containers:
+        - name: voter-registry-service
+          image: voter-registry-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: app-secrets

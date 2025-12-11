@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: election-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: election-service
+  template:
+    metadata:
+      labels:
+        app: election-service
+    spec:
+      containers:
+        - name: election-service
+          image: election-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: app-secrets

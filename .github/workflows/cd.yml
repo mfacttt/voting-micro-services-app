@@ -1,0 +1,121 @@
+﻿name: CD
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+  REGISTRY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  KUBE_NAMESPACE: voting-app
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tags: ${{ steps.set-matrix.outputs.image-tags }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+
+      - name: Set image matrix
+        id: set-matrix
+        run: |
+          TAG=${GITHUB_SHA::7}
+          IMAGE_JSON=$(jq -n \
+            --arg reg "$REGISTRY" \
+            --arg tag "$TAG" \
+            '{
+              "api-gateway": {"path": "src/Api-Gateway", "image": ($reg+"/api-gateway:"+$tag)},
+              "audit-service": {"path": "src/microservices/audit-service", "image": ($reg+"/audit-service:"+$tag)},
+              "election-service": {"path": "src/microservices/election-service", "image": ($reg+"/election-service:"+$tag)},
+              "identity-service": {"path": "src/microservices/identity-service", "image": ($reg+"/identity-service:"+$tag)},
+              "tally-service": {"path": "src/microservices/tally-service", "image": ($reg+"/tally-service:"+$tag)},
+              "vote-casting-service": {"path": "src/microservices/vote-casting-service", "image": ($reg+"/vote-casting-service:"+$tag)},
+              "voter-registry-service": {"path": "src/microservices/voter-registry-service", "image": ($reg+"/voter-registry-service:"+$tag)}
+            }')
+          echo "image-tags=$IMAGE_JSON" >> $GITHUB_OUTPUT
+
+      - name: Build and push images
+        uses: docker/bake-action@v5
+        with:
+          files: |
+            ./deploy/docker-compose/docker-compose.yml
+          push: true
+          set: |
+            *.tags=${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+
+      - name: Create namespace if not exists
+        run: |
+          kubectl get ns ${{ env.KUBE_NAMESPACE }} || kubectl create ns ${{ env.KUBE_NAMESPACE }}
+
+      - name: Apply ConfigMap and Secrets
+        run: |
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/postgres/configmap.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/secrets.yaml
+
+      - name: Deploy Postgres
+        run: |
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/postgres/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/postgres/service.yaml
+
+      - name: Deploy microservices
+        run: |
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/identity-service/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/identity-service/service.yaml
+
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/voter-registry-service/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/voter-registry-service/service.yaml
+
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/vote-casting-service/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/vote-casting-service/service.yaml
+
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/election-service/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/election-service/service.yaml
+
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/tally-service/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/tally-service/service.yaml
+
+      - name: Deploy API Gateway
+        run: |
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/api-gateway/deployment.yaml
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/api-gateway/service.yaml
+
+      - name: Apply Ingress
+        run: |
+          kubectl apply -n ${{ env.KUBE_NAMESPACE }} -f deploy/k8s/ingress.yaml
+
+      - name: Wait for readiness
+        run: |
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/identity-service --timeout=120s
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/voter-registry-service --timeout=120s
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/vote-casting-service --timeout=120s
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/election-service --timeout=120s
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/tally-service --timeout=120s
+          kubectl -n ${{ env.KUBE_NAMESPACE }} rollout status deployment/api-gateway --timeout=120s

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tally-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tally-service
+  template:
+    metadata:
+      labels:
+        app: tally-service
+    spec:
+      containers:
+        - name: tally-service
+          image: tally-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: app-secrets

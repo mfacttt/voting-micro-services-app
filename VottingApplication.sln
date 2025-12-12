@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BA41EE0B-8EC8-6637-2411-9884164A38AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Integration.Tests", "src\microservices\audit-service\tests\AuditService.Integration.Tests\AuditService.Integration.Tests.csproj", "{858AD994-3727-4FF3-8A50-BE57AF03B6E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Tests", "src\microservices\audit-service\tests\AuditService.Tests\AuditService.Tests.csproj", "{858AD994-3727-4FF3-8A50-BE57AF03B6E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Api", "src\microservices\audit-service\src\Api\AuditService.Api\AuditService.Api.csproj", "{726E0D07-5490-41C8-BB73-9CFD2D9037E0}"
 EndProject
@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionService.Persistence
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F203C04B-ADDD-A66E-C1B6-5280E332BE89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionService.Api.Tests", "src\microservices\election-service\tests\ElectionService.Api.Tests\ElectionService.Api.Tests.csproj", "{B08CD4F9-639B-4136-A114-203671EB081F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionService.Tests", "src\microservices\election-service\tests\ElectionService.Tests\ElectionService.Tests.csproj", "{B08CD4F9-639B-4136-A114-203671EB081F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tally-service", "tally-service", "{12555A99-F61A-F26C-89B0-C011C902C07A}"
 	ProjectSection(SolutionItems) = preProject
@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TallyService.Persistence", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1009E6D3-7EC9-6D56-CFEC-37905C8866B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TallyService.Api.Tests", "src\microservices\tally-service\tests\TallyService.Api.Tests\TallyService.Api.Tests.csproj", "{44EAFA5C-A61C-4664-AD8D-6C7058202525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TallyService.Tests", "src\microservices\tally-service\tests\TallyService.Tests\TallyService.Tests.csproj", "{44EAFA5C-A61C-4664-AD8D-6C7058202525}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity-service", "identity-service", "{97E434BC-3944-13C8-7F53-6AC15DB3FF2E}"
 	ProjectSection(SolutionItems) = preProject
@@ -114,7 +114,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Persistence
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2C12249B-3E90-555C-CF4D-CF25A2FAAF04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Integration.Tests", "src\microservices\identity-service\tests\IdentityService.Integration.Tests\IdentityService.Integration.Tests.csproj", "{6ADFF5CE-BBB6-4B35-A293-9A989FCA17B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Tests", "src\microservices\identity-service\tests\IdentityService.Tests\IdentityService.Tests.csproj", "{6ADFF5CE-BBB6-4B35-A293-9A989FCA17B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vote-casting-service", "vote-casting-service", "{33ED4E7A-C0A0-7D24-A658-C88C3EE5D751}"
 	ProjectSection(SolutionItems) = preProject
@@ -142,7 +142,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Persiste
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{19B43B8C-6486-1C04-A610-A9080685A8D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Integration.Tests", "src\microservices\vote-casting-service\tests\VoteCastingService.Integration.Tests\VoteCastingService.Integration.Tests.csproj", "{CCD53ADD-7452-4F01-A6C8-75C988009650}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteCastingService.Tests", "src\microservices\vote-casting-service\tests\VoteCastingService.Tests\VoteCastingService.Tests.csproj", "{CCD53ADD-7452-4F01-A6C8-75C988009650}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "voter-registry-service", "voter-registry-service", "{31B3085F-1DA0-92F3-3EA6-7155D0180F97}"
 	ProjectSection(SolutionItems) = preProject
@@ -170,7 +170,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterRegistryService.Persis
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F43F628A-75EA-7FEA-D1DD-EAFE8DE06851}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterRegistryService.Integration.Tests", "src\microservices\voter-registry-service\tests\VoterRegistryService.Integration.Tests\VoterRegistryService.Integration.Tests.csproj", "{D125CBA7-BA73-4D8C-A95B-62515A3AA081}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterRegistryService.Tests", "src\microservices\voter-registry-service\tests\VoterRegistryService.Tests\VoterRegistryService.Tests.csproj", "{D125CBA7-BA73-4D8C-A95B-62515A3AA081}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api-gateway", "api-gateway", "{9A77DE7C-23ED-4ADE-8DD3-017DB3D84059}"
 EndProject

@@ -6,12 +6,6 @@ namespace TallyService.Application.Services;
 
 public class TallyService(IVoteCountRepository voteCountRepository) : ITallyService
 {
-    public async Task AddVoteAsync(CandidateVoteRequest request, CancellationToken ct = default)
-    {
-        await voteCountRepository.AddAsync(MapToVoteCountEntity(request), ct);
-        await voteCountRepository.SaveChangesAsync(ct);
-    }
-
     public async Task FinalizeElectionAsync(Guid electionId, CancellationToken ct = default)
     {
         var candidates = await voteCountRepository.GetByElectionAsync(electionId, ct);
@@ -21,6 +15,12 @@ public class TallyService(IVoteCountRepository voteCountRepository) : ITallyServ
         
         await voteCountRepository.SaveChangesAsync(ct);
     }
+    public async Task AddVoteAsync(CandidateVoteRequest request, CancellationToken ct = default)
+    {
+        await voteCountRepository.AddAsync(MapToVoteCountEntity(request), ct);
+        await voteCountRepository.SaveChangesAsync(ct);
+    }
+
 
     public async Task<IReadOnlyList<CandidateCountResponse>> GetTallyAsync(Guid electionId, CancellationToken ct = default)
     {
